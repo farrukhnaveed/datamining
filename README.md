@@ -1,2 +1,2 @@
-# datamining
+# Datamining
 Semester Project - Datamining ITU
