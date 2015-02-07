@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 
 from store.registration import signals
 from store.registration.forms import RegistrationForm
-
+from store.settings import LOGIN_REDIRECT_URL as redirect_url
 
 class _RequestPassingFormView(FormView):
     """
@@ -80,7 +80,8 @@ class RegistrationView(_RequestPassingFormView):
 
     def form_valid(self, request, form):
         new_user = self.register(request, **form.cleaned_data)
-        success_url = self.get_success_url(request, new_user)
+        # success_url = self.get_success_url(request, new_user)
+        success_url = redirect_url
         
         # success_url may be a simple string, or a tuple providing the
         # full argument set for redirect(). Attempting to unpack it

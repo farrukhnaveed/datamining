@@ -1,27 +1,60 @@
-{% comment %}
-**registration/login.html**
+{% extends "base.html" %}
 
-It's your responsibility to provide the login form in a template called
-registration/login.html by default. This template gets passed four
-template context variables:
+{% block title %}Login|E-Shopper{% endblock %}
 
-``form``
-    A Form object representing the login form. See the forms
-    documentation for more on Form objects.
+{% block content %}
+	
+	<section id="form"><!--form-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
+					<div class="login-form"><!--login form-->
+						<h2>Login to your account</h2>
+						<form method="post" action="{% url 'auth_login' %}?next={{ next|default:"/" }}">{% csrf_token %}
+							<div>
+							{% if form.non_field_errors %} <span class="error">{{ form.non_field_errors|join:", " }}</span>{% endif %}
+							{{ form.username }}
+							{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}
+    						{{ form.password }}
+							{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}
+							</div>
+							<span>
+								<input type="checkbox" class="checkbox"> 
+								Keep me signed in
+							</span>
+							<button type="submit" class="btn btn-default">Login</button>
+						</form>
+					</div><!--/login form-->
+				</div>
+				<div class="col-sm-1">
+					<h2 class="or">OR</h2>
+				</div>
+				<div class="col-sm-4">
+					<div class="signup-form"><!--sign up form-->
+						<h2>New User Signup!</h2>
+						<form method="post" action="{% url 'registration_register' %}?next={{ next|default:"/" }}">{% csrf_token %}
+							<input id="id_username" maxlength="254" name="username" type="text" placeholder="Username">
+							<input class="required" id="id_email" maxlength="75" name="email" type="text" placeholder="Email">
+							<input class="required" id="id_password1" name="password1" type="password" placeholder="Password">
+							<input class="required" id="id_password2" name="password2" type="password" placeholder="Re-Enter Password">
+							<button type="submit" onclick='set_pass()' class="btn btn-default">Signup</button>
+						</form>
+					</div><!--/sign up form-->
+				</div>
+			</div>
+		</div>
+	</section><!--/form-->
+	
+{% endblock %}
 
-``next``
-    The URL to redirect to after successful login. This may contain a
-    query string, too.
+{% block extra_body %}
+<script type="text/javascript">
+ $("#id_username").attr('placeholder', 'Username').focus();
+ $("#id_password").attr('placeholder', 'Password');
+ $("#id_password2").hide();
 
-``site``
-    The current Site, according to the SITE_ID setting. If you don't
-    have the site framework installed, this will be set to an instance
-    of RequestSite, which derives the site name and domain from the
-    current HttpRequest.
-
-``site_name``
-    An alias for site.name. If you don't have the site framework
-    installed, this will be set to the value of
-    request.META['SERVER_NAME']. For more on sites, see The
-    "sites" framework.
-{% endcomment %}
+ function set_pass() {
+ 	$('#id_password2').val($("#id_password1").val());
+ }
+</script>
+{% endblock %}

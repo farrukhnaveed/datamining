@@ -1,11 +1,41 @@
-{% comment %}
-**registration/registration_form.html**
-Used to show the form users will fill out to register. By default, has
-the following context:
+{% extends "base.html" %}
 
-``form``
-    The registration form. This will be an instance of some subclass
-    of ``django.forms.Form``; consult `Django's forms documentation
-    <http://docs.djangoproject.com/en/dev/topics/forms/>`_ for
-    information on how to display this in a template.
-{% endcomment %}
+{% block title %}Login|E-Shopper{% endblock %}
+
+{% block content %}
+	
+	<section id="form"><!--form-->
+		<div class="container">
+			<div class="signup-form"><!--sign up form-->
+				<h2>New User Signup!</h2>
+				<form method="post" action="{% url 'registration_register' %}?next={{ next|default:"/" }}">{% csrf_token %}
+					{{ form.errors }}
+					{{ form.username }}
+					{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}
+					{{ form.email }}
+					{% if form.email.errors %}<span class="error">{{ form.email.errors.as_text }}</span>{% endif %}
+					{{ form.password1 }}
+					{% if form.password1.errors %}<span class="error">{{ form.password1.errors.as_text }}</span>{% endif %}
+					{{ form.password2 }}
+					<button type="submit" class="btn btn-default" onclick="set_pass()">Signup</button>
+				</form>
+			</div><!--/sign up form-->
+		</div>
+	</section><!--/form-->
+	
+{% endblock %}
+
+
+{% block extra_body %}
+<script type="text/javascript">
+ $("#id_username").attr('placeholder', 'Username').focus();
+ $("#id_email").attr('placeholder', 'Email');
+ $("#id_password1").attr('placeholder', 'Password');
+ $("#id_password2").attr('placeholder', 'Re-Enter Password');
+ $("#id_password2").hide();
+
+ function set_pass() {
+ 	$('#id_password2').val($("#id_password1").val());
+ }
+</script>
+{% endblock %}
