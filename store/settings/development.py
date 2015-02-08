@@ -1,7 +1,7 @@
 # Add specific apps for development server here.
 #INSTALLED_APPS += ('debug_toolbar',)
 
-DEBUG = True
+DEBUG = False
 
 # PROJECT DATABASE SETTINGS
 DATABASES = {
