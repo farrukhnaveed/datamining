@@ -122,9 +122,16 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'south',
+    'taggit',
     'store.registration',
+    'store.inventory',
+    'store.transactions',
 )
 
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migrations',
+}
 
 LOGIN_ERROR_URL = '/accounts/login/'
 LOGIN_URL          = '/accounts/login/'
