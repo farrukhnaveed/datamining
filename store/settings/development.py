@@ -1,3 +1,4 @@
+import os
 # Add specific apps for development server here.
 #INSTALLED_APPS += ('debug_toolbar',)
 
@@ -22,3 +23,5 @@ EMAIL_HOST_USER = 'dummy@domain.com'
 EMAIL_HOST_PASSWORD = '123456'
 EMAIL_USE_TLS = True 
 EMAIL_PORT = 587
+
+os.system('clear')

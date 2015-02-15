@@ -1,5 +1,6 @@
 # Django settings for store project.
 import sys, os
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -81,6 +82,9 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '7r_&^w@vuh_=9u05m7lcknlp-m4g1b!jz(#ab2=0)z^#3xd-gu'
 
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',

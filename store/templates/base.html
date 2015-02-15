@@ -65,12 +65,12 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="{% url 'homepage' %}" class="active"><i class="fa fa-star"></i> Home</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="{% url 'homepage' %}" {% if request.path == '/' %}class="active"{% endif %}><i class="fa fa-star"></i> Home</a></li>
+								<li><a href="cart.html" {% if request.path == '/cart' %}class="active"{% endif %}><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								{% if request.user.is_authenticated %}
-									<li><a href="{% url 'auth_login' %}"><i class="fa fa-lock"></i> Logout</a></li>
+									<li><a href="{% url 'auth_logout' %}" {% if request.path == '/accounts/logout/' %}class="active"{% endif %}><i class="fa fa-lock"></i> Logout</a></li>
 								{% else %}	
-									<li><a href="{% url 'auth_logout' %}"><i class="fa fa-lock"></i> Login</a></li>
+									<li><a href="{% url 'auth_login' %}" {% if request.path == '/accounts/login/' %}class="active"{% endif %}><i class="fa fa-lock"></i> Login</a></li>
 								{% endif %}
 							</ul>
 						</div>
