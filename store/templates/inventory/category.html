@@ -45,7 +45,7 @@
 											<img src="{{item.image.url}}" alt="{{item.name}}" />
 											<h2>Rs {{item.price|floatformat:"0"}}</h2>
 											<p>{{item.name}}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="#" class="btn btn-default add-to-cart add-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
@@ -53,7 +53,7 @@
 													<h2>Rs {{item.price|floatformat:"0"}}</h2>
 													<p>{{item.name}}</p>
 												</a>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												<a href="#" class="btn btn-default add-to-cart add-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											</div>
 										</div>
 									</div>
@@ -79,3 +79,50 @@
 	</section>
 
 {% endblock %}
+
+{% block extra_body %}
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('.add-cart').on('click',function(){
+			alert('you dont rock:/');
+			$.ajax({
+		        url: '/item/ajax/add/',
+		        type: 'POST',
+		        data: 'happy',
+		        dataType: 'json',
+		        success: function(data)
+		            {
+		                $.fancybox.close();
+		                if (data) 
+		                {
+		                    if (data == 'success')
+		                    {
+		                        // Dont refresh window instead modify page through ajax
+		                        // var sURL = unescape(window.location.pathname);
+		                        // window.location.href = sURL;
+		                        $.ajax({
+		                            url: '/restaurant/ajaxadmin/menuitem/items/',
+		                            type: 'GET',
+		                            data: { q: $('#restaurant_id').val() },
+		                            dataType: "html",
+		                            success: function(data){
+		                                $('#show_menu_items').html(data);
+		                            }
+		                        });
+		                    }
+		                }
+		            },
+		        error: function(data)
+		            {
+		                $.fancybox.close();
+		            }
+		    });
+		});
+	});
+	</script>
+
+{% endblock %}
+
+
+		
