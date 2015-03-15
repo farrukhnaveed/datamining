@@ -20,7 +20,21 @@
 							{% for category in categories %}
 								<div class="panel panel-default">
 									<div class="panel-heading">
-										<h4 class="panel-title"><a href="{% url 'category' category.slug %}">{{category.name}}</a></h4>
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordian" href="#{{category.slug}}">
+												<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											</a>
+											<a href="{% url 'category' category.slug %}">{{category.name}}</a>
+										</h4>
+									</div>
+									<div id="{{category.slug}}" class="panel-collapse collapse">
+										<div class="panel-body">
+											<ul>
+												{% for sub_category in category.subcategory_set.all %}
+												<li><a href="{% url 'sub_category' category.slug sub_category.slug %}">{{sub_category.name}}</a></li>
+												{% endfor %}
+											</ul>
+										</div>
 									</div>
 								</div>
 							{% endfor %}
@@ -47,8 +61,8 @@
 								<span>
 									<span>Rs {{item.price|floatformat:"0"}}</span>
 									<label>Quantity:</label>
-									<input type="text" value="3" />
-									<button type="button" class="btn btn-fefault cart">
+									<input id="quantity" type="text" value="1" />
+									<button type="button" class="btn btn-fefault cart add-cart">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>
@@ -121,5 +135,34 @@
 			</div>
 		</div>
 	</section>
+
+{% endblock %}
+
+{% block extra_body %}
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.add-cart').on('click',function(){
+				$.ajax({
+			        url: '/cart/ajax/add/',
+			        type: 'GET',
+			        data: {item_id: {{item.id}}, quantity: $('#quantity').val()},
+			        dataType: 'json',
+			        success: function(data)
+			            {
+			                if (data) 
+			                {
+			                	$('.add-cart').html('<i class="fa fa-shopping-cart"></i> Item Added')
+			                    alert('Item Added');
+			                }
+			            },
+			        error: function(data)
+			            {
+			                alert('Item not Added');
+			            }
+			    });
+			});
+		});
+	</script>
 
 {% endblock %}

@@ -8,12 +8,19 @@ DEBUG = True
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "storedb",
+        "NAME": "storedb3",
         "USER": "postgres",
         "PASSWORD": "root",
         "HOST": "",
         "PORT": "",
     },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'localhost:11211',
+    }
 }
 
 # Email settings

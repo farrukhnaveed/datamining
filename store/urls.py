@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'^accounts/', include('store.registration.urls')),
 	url(r'^', include('store.inventory.urls')),
+	url(r'^', include('store.transactions.urls')),
 	#url(r'^transaction/', include('store.transactions.urls')),
 )
 

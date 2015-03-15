@@ -94,10 +94,47 @@ class Category( models.Model ):
 		super(Category, self).save()
 
 
+class SubCategory( models.Model ):
+	category = models.ForeignKey(Category, verbose_name="Category", null=True)
+	name = models.CharField( verbose_name="Sub-Category", max_length = 50, unique=True)
+	slug = models.CharField( verbose_name="Sub-Category Slug", max_length = 50, unique=True)
+
+	class Meta:
+		verbose_name = "Sub-Category"
+		verbose_name_plural = "Sub-Categories"
+		
+	def __unicode__(self):
+		return _(u'%s') % (self.name)
+
+	def save(self, **kwargs):
+		if not self.id:
+			unique_slugify(self, self.name)
+		super(SubCategory, self).save()
+
+
+class Brand( models.Model ):
+	name = models.CharField( verbose_name="Brand", max_length = 50, unique=True)
+	slug = models.CharField( verbose_name="Brand Slug", max_length = 50, unique=True)
+
+	class Meta:
+		verbose_name = "Brand"
+		verbose_name_plural = "Brands"
+		
+	def __unicode__(self):
+		return _(u'%s') % (self.name)
+
+	def save(self, **kwargs):
+		if not self.id:
+			unique_slugify(self, self.name)
+		super(Brand, self).save()
+
+
 class Item( models.Model ):
 	tags = TaggableManager()
 	status = models.BooleanField('Status', default=True)
 	category = models.ForeignKey(Category, verbose_name="Category")
+	sub_category = models.ForeignKey(SubCategory, verbose_name="Sub-Category", null=True)
+	brand = models.ForeignKey(Brand, verbose_name="Brand", null=True)
 	name = models.CharField( verbose_name="Item", max_length = 100 )
 	description = models.CharField( verbose_name="Description", max_length = 150)
 	price = models.DecimalField( verbose_name="Price", max_digits=8, decimal_places=2)

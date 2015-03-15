@@ -20,7 +20,21 @@
 							{% for category in categories %}
 								<div class="panel panel-default">
 									<div class="panel-heading">
-										<h4 class="panel-title"><a href="{% url 'category' category.slug %}">{{category.name}}</a></h4>
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordian" href="#{{category.slug}}">
+												<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											</a>
+											<a href="{% url 'category' category.slug %}">{{category.name}}</a>
+										</h4>
+									</div>
+									<div id="{{category.slug}}" class="panel-collapse collapse">
+										<div class="panel-body">
+											<ul>
+												{% for sub_category in category.subcategory_set.all %}
+												<li><a href="{% url 'sub_category' category.slug sub_category.slug %}">{{sub_category.name}}</a></li>
+												{% endfor %}
+											</ul>
+										</div>
 									</div>
 								</div>
 							{% endfor %}
@@ -35,7 +49,7 @@
 				
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
-						<h2 class="title text-center">Featured Items</h2>
+						<h2 class="title text-center">{{items.0.sub_category.name}}</h2>
 						{% if items %}
 						{% for item in items %}
 							<div class="col-sm-4">
@@ -45,15 +59,15 @@
 											<img src="{{item.image.url}}" alt="{{item.name}}" />
 											<h2>Rs {{item.price|floatformat:"0"}}</h2>
 											<p>{{item.name}}</p>
-											<a href="#" class="btn btn-default add-to-cart add-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
-												<a href="{% url 'item' item.category.slug item.slug %}">
+												<a href="{% url 'item' item.sub_category.category.slug item.sub_category.slug item.slug %}">
 													<h2>Rs {{item.price|floatformat:"0"}}</h2>
 													<p>{{item.name}}</p>
 												</a>
-												<a href="#" class="btn btn-default add-to-cart add-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												<a id="{{item.id}}" href="javascript:void(0);" class="btn btn-default add-to-cart add-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											</div>
 										</div>
 									</div>
@@ -65,13 +79,6 @@
 								No Items Found
 							</div>
 						{% endif %}
-						
-						<ul class="pagination">
-							<li class="active"><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">&raquo;</a></li>
-						</ul>
 					</div><!--features_items-->
 				</div>
 			</div>
@@ -83,43 +90,27 @@
 {% block extra_body %}
 
 	<script type="text/javascript">
-	$(document).ready(function() {
-		$('.add-cart').on('click',function(){
-			alert('you dont rock:/');
-			$.ajax({
-		        url: '/item/ajax/add/',
-		        type: 'POST',
-		        data: 'happy',
-		        dataType: 'json',
-		        success: function(data)
-		            {
-		                $.fancybox.close();
-		                if (data) 
-		                {
-		                    if (data == 'success')
-		                    {
-		                        // Dont refresh window instead modify page through ajax
-		                        // var sURL = unescape(window.location.pathname);
-		                        // window.location.href = sURL;
-		                        $.ajax({
-		                            url: '/restaurant/ajaxadmin/menuitem/items/',
-		                            type: 'GET',
-		                            data: { q: $('#restaurant_id').val() },
-		                            dataType: "html",
-		                            success: function(data){
-		                                $('#show_menu_items').html(data);
-		                            }
-		                        });
-		                    }
-		                }
-		            },
-		        error: function(data)
-		            {
-		                $.fancybox.close();
-		            }
-		    });
+		$(document).ready(function() {
+			$('.add-cart').on('click',function(){
+				$.ajax({
+			        url: '/cart/ajax/add/',
+			        type: 'GET',
+			        data: {'item_id': $(this).attr('id')},
+			        dataType: 'json',
+			        success: function(data)
+			            {
+			            	if (data) 
+			                {
+			                    alert('Item Added');
+			                }
+			            },
+			        error: function(data)
+			            {
+			                alert('Item not Added');
+			            }
+			    });
+			});
 		});
-	});
 	</script>
 
 {% endblock %}
