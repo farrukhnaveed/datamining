@@ -59,7 +59,7 @@
 											<img src="{{item.image.url}}" alt="{{item.name}}" />
 											<h2>Rs {{item.price|floatformat:"0"}}</h2>
 											<p>{{item.name}}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a id="{{item.id}}" href="javascript:void(0);" class="btn btn-default add-to-cart add-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">

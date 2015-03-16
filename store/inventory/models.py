@@ -152,3 +152,10 @@ class Item( models.Model ):
 		if not self.id:
 			unique_slugify(self, self.name)
 		super(Item, self).save()
+
+
+class FrequentItem( models.Model ):
+	main_item = models.ForeignKey(Item, verbose_name="Main Item")
+	frequent_item = models.ForeignKey(Item, related_name="frequent_item", verbose_name="Frequent Item")
+	support = models.PositiveIntegerField( verbose_name="Min Support", default=0)
+	
