@@ -14,6 +14,10 @@ def homepage( request, template_name ):
 	# return render_to_response(template_name, {'test': 'test'}, context_instance=RequestContext(request))
 
 
+def addItem( request, template_name ):
+	return render_to_response(template_name, {'test': 'test'}, context_instance=RequestContext(request))
+
+
 def category( request, category_slug, template_name ):
 	categories = Category.objects.all()
 	items = Item.objects.filter(category__slug=category_slug, status=True)

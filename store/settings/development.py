@@ -11,8 +11,8 @@ DATABASES = {
         "NAME": "storedb3",
         "USER": "postgres",
         "PASSWORD": "root",
-        "HOST": "",
-        "PORT": "",
+        "HOST": "192.168.99.100",
+        "PORT": "5432",
     },
 }
 

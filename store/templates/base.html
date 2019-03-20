@@ -45,7 +45,7 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="{% url 'homepage' %}" {% if request.path == '/' %}class="active"{% endif %}><i class="fa fa-star"></i> Home</a></li>
+								<li><a href="{% url 'addItem' %}" {% if request.path == '/addItem' %}class="active"{% endif %}><i class="fa fa-star"></i> Add Item</a></li>
 								<li><a href="{% url 'cart' %}" {% if request.path == '/cart' %}class="active"{% endif %}><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								{% if request.user.is_authenticated %}
 									<li><a href="{% url 'auth_logout' %}" {% if request.path == '/accounts/logout/' %}class="active"{% endif %}><i class="fa fa-lock"></i> Logout</a></li>
