@@ -1,2 +1,3 @@
 # Datamining
-Semester Project - Datamining ITU
+Project - Find related items from search history
+
